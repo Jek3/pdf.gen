@@ -1,0 +1,33 @@
+# Node
+node_modules/
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.*
+
+# VSCode
+.vscode/
+
+# Test output
+coverage/
+*.test.pdf
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+*.tsbuildinfo
+
+# Misc
+*.log
+.idea/
+
+# Ignore local config
+local.env

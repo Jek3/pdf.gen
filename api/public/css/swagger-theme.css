@@ -1,0 +1,14 @@
+:root { --fb-blue: #1877f2; --fb-dark: #050505; --card-bg: #ffffff; }
+.swagger-ui .topbar { background: var(--fb-blue); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.swagger-ui .topbar a span { color: #fff !important; }
+.swagger-ui .info { color: #fff; }
+.swagger-ui .info .title { font-family: 'Helvetica Neue', Arial, sans-serif; font-weight:700; color:#fff; }
+.swagger-ui .opblock { border-radius: 10px; background: var(--card-bg); box-shadow: 0 1px 3px rgba(16,24,40,0.06); }
+.swagger-ui .opblock-summary { border-radius: 8px; }
+.swagger-ui .opblock .opblock-summary-method { background: var(--fb-blue) !important; color: #fff !important; font-weight:600; }
+.swagger-ui .scheme-container, .swagger-ui .opblock-body { border-radius: 8px; }
+.swagger-ui .try-out, .swagger-ui .execute { background: var(--fb-blue); color:#fff; border: none; box-shadow: none; }
+.swagger-ui .parameters-col_description, .swagger-ui .parameter__name { font-family: 'Helvetica Neue', Arial, sans-serif; }
+.swagger-ui .responses-wrapper table td { vertical-align: middle; }
+.swagger-ui .info .description { opacity: 0.9; }
+body.swagger-ui { font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: #f2f4f7; }
