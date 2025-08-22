@@ -12,7 +12,7 @@ yarn-error.log*
 .env.*
 
 # VSCode
-.vscode/
+# .vscode/
 
 # Test output
 coverage/

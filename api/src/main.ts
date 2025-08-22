@@ -1,13 +1,14 @@
-import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { join } from 'path';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-
-  // Serve static assets from /public so we can use a custom logo in the Swagger UI
+  app.enableCors();
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
   const config = new DocumentBuilder()
@@ -19,53 +20,12 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
 
-  const customCss = `
-  :root { --fb-blue: #1877f2; --fb-dark: #050505; --card-bg: #ffffff; --muted:#6b7280 }
-  /* Topbar */
-  .swagger-ui .topbar { background: linear-gradient(180deg, var(--fb-blue), #145dbf); box-shadow: 0 2px 10px rgba(16,24,40,0.12); }
-  .swagger-ui .topbar .link { display:flex; align-items:center; gap:12px; padding-left:12px; }
-  .swagger-ui .topbar .link::before { content: '' ; display: block; width:36px; height:36px; background-image: url('/pdf_gen.png'); background-size: cover; background-repeat: no-repeat; background-position: center; border-radius:6px; }
-  .swagger-ui .topbar a span { color: #fff !important; font-weight:700; font-size:20px }
-  /* Ensure badges and version/OAS labels are visible */
-  .swagger-ui .topbar .download-url-wrapper .badge, .swagger-ui .topbar .topbar-wrapper .version { color:#fff; background: rgba(255,255,255,0.12); border-radius:6px; padding:2px 6px; margin-left:6px; }
-
-  /* Info panel on left (title/description) */
-  .swagger-ui .info { color: var(--fb-dark); }
-  .swagger-ui .info .title { font-family: 'Helvetica Neue', Arial, sans-serif; font-weight:700; color:#2b2b2b; background: none; padding: 6px 0; }
-  .swagger-ui .info .description { color: var(--muted); }
-
-  /* Operation blocks */
-  .swagger-ui .opblock { border-radius: 10px; background: var(--card-bg); box-shadow: 0 1px 3px rgba(16,24,40,0.06); border: 1px solid rgba(16,24,40,0.04); margin-bottom:12px }
-  .swagger-ui .opblock-summary { border-radius: 8px; }
-  .swagger-ui .opblock .opblock-summary-method { background: var(--fb-blue) !important; color: #fff !important; font-weight:600; padding:6px 10px; border-radius:6px; }
-
-  /* Buttons */
-  .swagger-ui .opblock .try-out, .swagger-ui .opblock .execute, .swagger-ui .btn.try-out, .swagger-ui .btn.execute, .swagger-ui .try-out__btn {
-    background: var(--fb-blue) !important;
-    color:#fff !important;
-    border: none !important;
-    box-shadow: 0 2px 6px rgba(24,119,242,0.18) !important;
-    padding: 6px 12px !important;
-    border-radius: 6px !important;
-    font-weight:600 !important;
-  }
-  .swagger-ui .opblock .try-out:disabled, .swagger-ui .opblock .execute:disabled { opacity: 0.6 }
-  .swagger-ui .btn[disabled], .swagger-ui button[disabled] { opacity: 0.6 }
-
-  /* Form inputs and parameter areas */
-  .swagger-ui .parameters-col_description, .swagger-ui .parameter__name { font-family: 'Helvetica Neue', Arial, sans-serif; color: #111827 }
-  .swagger-ui .opblock-body { border-radius: 8px; }
-  .swagger-ui .responses-wrapper table td { vertical-align: middle; }
-
-  body.swagger-ui { font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: #f6f7fb; }
-  `;
-
-  // small SVG favicon with FB-like blue
-  const customFavIcon = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="%231877f2" rx="6"/><text x="50%" y="55%" font-size="18" font-family="Arial,Helvetica,sans-serif" fill="white" text-anchor="middle" alignment-baseline="central">P</text></svg>';
+  const customCssUrl = '/css/swagger-theme.css';
+  const customFavIcon = '/img/favicon.ico';
 
   SwaggerModule.setup('docs', app, document, {
-    customCss,
-    customSiteTitle: 'PDF Generator API — Docs',
+  customCssUrl,
+    customSiteTitle: 'PDFGen API — Docs',
     customfavIcon: customFavIcon,
     swaggerOptions: {
       docExpansion: 'list',

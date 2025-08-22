@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "PDFGen API",
+      "program": "${workspaceFolder}/api/src/main.ts",
+      "cwd": "${workspaceFolder}/api",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "env": {
+        "TS_NODE_PROJECT": "${workspaceFolder}/api/tsconfig.build.json"
+      },
+      "console": "integratedTerminal",
+      "autoAttachChildProcesses": true,
+      "outFiles": ["${workspaceFolder}/api/dist/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "PDFGen App (dev)",
+      "cwd": "${workspaceFolder}/app",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "console": "integratedTerminal",
+      "env": {}
+    }
+  ],
+  "compounds": [
+    {
+      "name": "PDFGen App+API",
+      "configurations": ["PDFGen App (dev)", "PDFGen API"]
+    }
+  ]
+}
